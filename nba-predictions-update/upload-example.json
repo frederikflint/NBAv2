@@ -1,0 +1,37 @@
+{
+  "username": "frederikflint",
+  "western": {
+    "Denver Nuggets": 1,
+    "Memphis Grizzlies": 2,
+    "Sacramento Kings": 3,
+    "Phoenix Suns": 4,
+    "LA Clippers": 5,
+    "Golden State Warriors": 6,
+    "Los Angeles Lakers": 7,
+    "Minnesota Timberwolves": 8,
+    "Oklahoma City Thunder": 9,
+    "New Orleans Pelicans": 10,
+    "Dallas Mavericks": 11,
+    "Utah Jazz": 12,
+    "Portland Trail Blazers": 13,
+    "Houston Rockets": 14,
+    "San Antonio Spurs": 15
+  },
+  "eastern": {
+    "Milwaukee Bucks": 1,
+    "Boston Celtics": 2,
+    "Philadelphia 76ers": 3,
+    "Cleveland Cavaliers": 4,
+    "New York Knicks": 5,
+    "Brooklyn Nets": 6,
+    "Atlanta Hawks": 7,
+    "Miami Heat": 8,
+    "Chicago Bulls": 9,
+    "Toronto Raptors": 10,
+    "Indiana Pacers": 11,
+    "Washington Wizards": 12,
+    "Orlando Magic": 13,
+    "Charlotte Hornets": 14,
+    "Detroit Pistons": 15
+  }
+}
