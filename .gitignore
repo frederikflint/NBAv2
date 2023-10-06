@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+package/*
+deployment_package.zip
+
 # C extensions
 *.so
 
