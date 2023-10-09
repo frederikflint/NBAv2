@@ -267,16 +267,18 @@ function App() {
         <div className="bg-blue-400 rounded-md lg:text-left p-2">
           <div className="grid grid-cols-12">
             <span>Rank</span>
-            <span className="col-span-10">User</span>
-            <span>Score</span>
+            <span className="col-span-9">User</span>
+            <span className="col-span-2">Score</span>
             {predictions
               .sort((a, b) => calculatOffsetUser(a) - calculatOffsetUser(b))
               .map((prediction, index) => {
                 return (
                   <>
                     <span>{index + 1}.</span>
-                    <span className="col-span-10">{prediction.username}</span>
-                    <span>{calculatOffsetUser(prediction)}</span>
+                    <span className="col-span-9">{prediction.username}</span>
+                    <span className="col-span-2">
+                      {calculatOffsetUser(prediction)}
+                    </span>
                   </>
                 );
               })}
