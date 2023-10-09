@@ -27,25 +27,11 @@ export interface EastPrediction {
 }
 
 export interface WestPrediction {
-  "Denver Nuggets": number;
-  "Memphis Grizzlies": number;
-  "Sacramento Kings": number;
-  "Phoenix Suns": number;
-  "LA Clippers": number;
-  "Golden State Warriors": number;
-  "Los Angeles Lakers": number;
-  "Minnesota Timberwolves": number;
-  "Oklahoma City Thunder": number;
-  "New Orleans Pelicans": number;
-  "Dallas Mavericks": number;
-  "Utah Jazz": number;
-  "Portland Trail Blazers": number;
-  "Houston Rockets": number;
-  "San Antonio Spurs": number;
+  [team: string]: number;
 }
 
 function App() {
-  const [predictions, setPredictions] = useState([]);
+  const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [standings, setStandings] = useState(null);
   useEffect(() => {
     fetch(
@@ -69,16 +55,31 @@ function App() {
 
   const renderPredictions = () => {
     console.log(predictions);
-    return predictions?.map((prediction: Prediction) => {
+
+    return predictions.map((prediction) => {
+      console.log(prediction);
       return (
-        <div key={prediction.username}>
-          <p>{prediction.username}</p>
-        </div>
+        <>
+          <div>
+            {Object.keys(prediction.eastern).map((team: string) => {
+              return <div key={prediction.username + team}>{team}</div>;
+            })}
+          </div>
+          <div>
+            {Object.keys(prediction.western).map((team: string) => {
+              return <div key={prediction.username + team}>{team}</div>;
+            })}
+          </div>
+        </>
       );
     });
   };
 
-  return <>{renderPredictions()}</>;
+  return (
+    <div className="container bg-gray-800">
+      <div className="flex">Hej</div>
+    </div>
+  );
 }
 
 export default App;
