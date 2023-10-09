@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import "./App.css";
 
 export interface Prediction {
@@ -51,7 +51,7 @@ function App() {
       });
   }, []);
 
-  const calculateOffset = (
+  const calculateOffsetTeam = (
     confName: string,
     teamName: string,
     pred: number
@@ -71,11 +71,33 @@ function App() {
     }
   };
 
+  const calculatOffsetConf = (
+    confName: string,
+    prediction: ConferncePrediction
+  ) => {
+    if (!standings) {
+      return 0;
+    }
+
+    const conference =
+      confName === "East" ? standings.eastern : standings.western;
+
+    let result = 0;
+    Object.keys(prediction).forEach((team) => {
+      const teamPredicted = prediction[team];
+      const teamActual = conference[team].placement;
+
+      result += Math.abs(teamPredicted - teamActual);
+    });
+
+    return result;
+  };
+
   const renderConferencePrediction = (
     prediction: ConferncePrediction,
     confName: string
   ) => {
-    console.log(prediction);
+    const confOffset = calculatOffsetConf(confName, prediction);
 
     return (
       <div id="east" className="grid grid-cols-8">
@@ -86,36 +108,48 @@ function App() {
             const pred = prediction[team];
 
             return (
-              <>
-                <div>{pred}</div>
+              <Fragment key={team + "pred"}>
+                <div className="text-center">{pred}.</div>
                 <div className="col-span-6">{team}</div>
-                <div>{calculateOffset(confName, team, pred)}</div>
-              </>
+                <div className="text-right">
+                  {calculateOffsetTeam(confName, team, pred)}
+                </div>
+              </Fragment>
             );
           })}
+
+        <div className="font-bold col-span-8 text-right">
+          {confOffset ? "+ " + confOffset : "0"}
+        </div>
       </div>
     );
   };
 
-  const renderUserPrediction = (prediction: Prediction) => {
-    console.log(prediction);
+  const calculatOffsetUser = (userPrediction: Prediction) => {
+    const eastOffset = calculatOffsetConf("East", userPrediction.eastern);
+    const westOffset = calculatOffsetConf("West", userPrediction.western);
 
+    return eastOffset + westOffset;
+  };
+
+  const renderUserPrediction = (prediction: Prediction) => {
     return (
-      <div className="col-span-2 lg:col-span-1">
+      <div key={prediction.username} className="col-span-2 lg:col-span-1">
         <div id="header" className="font-bold">
           {prediction.username}
         </div>
         <div className="grid grid-cols-2 gap-2 border border-black rounded-md bg-blue-100 p-4">
           {renderConferencePrediction(prediction.eastern, "East")}
           {renderConferencePrediction(prediction.western, "West")}
+          <div className="font-bold">
+            Score: {calculatOffsetUser(prediction)}
+          </div>
         </div>
       </div>
     );
   };
 
   const renderPredictions = () => {
-    console.log(predictions);
-
     return (
       <>
         <div className="bg-blue-100 rounded-md font-bold lg:text-left p-2">
@@ -123,9 +157,11 @@ function App() {
         </div>
 
         <div className="grid grid-cols-2 gap-4 lg:text-left mt-2">
-          {predictions.map((prediction) => {
-            return renderUserPrediction(prediction);
-          })}
+          {predictions
+            .sort((a, b) => calculatOffsetUser(a) - calculatOffsetUser(b))
+            .map((prediction) => {
+              return renderUserPrediction(prediction);
+            })}
         </div>
       </>
     );
@@ -152,12 +188,12 @@ function App() {
             .map((team) => {
               const stats = conferenceObj[team];
               return (
-                <>
+                <Fragment key={team + "standings"}>
                   <span>{stats.placement}</span>
                   <span className="col-span-4">{team}</span>
                   <span>{stats.wins}</span>
                   <span>{stats.losses}</span>
-                </>
+                </Fragment>
               );
             })}
         </div>
@@ -180,6 +216,7 @@ function App() {
       </>
     );
   };
+
   return (
     <div className="container mx-auto">
       <div className="flex-col space-y-4">
