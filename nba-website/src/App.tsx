@@ -1,6 +1,42 @@
 import { Fragment, useEffect, useState } from "react";
 import "./App.css";
 
+const eastTeamShortNames: { [key: string]: string } = {
+  "Milwaukee Bucks": "MIL",
+  "Boston Celtics": "BOS",
+  "Philadelphia 76ers": "PHI",
+  "Cleveland Cavaliers": "CLE",
+  "New York Knicks": "NYK",
+  "Brooklyn Nets": "BKN",
+  "Atlanta Hawks": "ATL",
+  "Miami Heat": "MIA",
+  "Chicago Bulls": "CHI",
+  "Toronto Raptors": "TOR",
+  "Indiana Pacers": "IND",
+  "Washington Wizards": "WAS",
+  "Orlando Magic": "ORL",
+  "Charlotte Hornets": "CHA",
+  "Detroit Pistons": "DET",
+};
+
+const westTeamShortNames: { [key: string]: string } = {
+  "Denver Nuggets": "DEN",
+  "Memphis Grizzlies": "MEM",
+  "Sacramento Kings": "SAC",
+  "Phoenix Suns": "PHX",
+  "LA Clippers": "LAC",
+  "Golden State Warriors": "GSW",
+  "Los Angeles Lakers": "LAL",
+  "Minnesota Timberwolves": "MIN",
+  "Oklahoma City Thunder": "OKC",
+  "New Orleans Pelicans": "NOP",
+  "Dallas Mavericks": "DAL",
+  "Utah Jazz": "UTA",
+  "Portland Trail Blazers": "POR",
+  "Houston Rockets": "HOU",
+  "San Antonio Spurs": "SAS",
+};
+
 export interface Prediction {
   username: string;
   datetime: string;
@@ -110,8 +146,13 @@ function App() {
             return (
               <Fragment key={team + "pred"}>
                 <div className="text-center">{pred}.</div>
-                <div className="col-span-6">{team}</div>
-                <div className="text-right">
+                <div className="sm:hidden col-span-5">
+                  {confName === "East"
+                    ? eastTeamShortNames[team]
+                    : westTeamShortNames[team]}
+                </div>
+                <div className="hidden sm:block col-span-6">{team}</div>
+                <div className="col-span-2 sm:col-span-1 text-right">
                   {calculateOffsetTeam(confName, team, pred)}
                 </div>
               </Fragment>
