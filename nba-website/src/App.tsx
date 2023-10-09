@@ -258,6 +258,34 @@ function App() {
     );
   };
 
+  const renderScorboard = () => {
+    return (
+      <div className="space-y-2">
+        <div className="bg-blue-400 rounded-md font-bold lg:text-left p-2">
+          Scoreboard
+        </div>
+        <div className="bg-blue-400 rounded-md lg:text-left p-2">
+          <div className="grid grid-cols-12">
+            <span>Rank</span>
+            <span className="col-span-10">User</span>
+            <span>Score</span>
+            {predictions
+              .sort((a, b) => calculatOffsetUser(a) - calculatOffsetUser(b))
+              .map((prediction, index) => {
+                return (
+                  <>
+                    <span>{index + 1}.</span>
+                    <span className="col-span-10">{prediction.username}</span>
+                    <span>{calculatOffsetUser(prediction)}</span>
+                  </>
+                );
+              })}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="container mx-auto">
       <div className="flex-col space-y-4">
@@ -266,6 +294,9 @@ function App() {
           className="w-full bg-blue-300 lg:text-left p-2 rounded-md font-bold"
         >
           NBA Predictions 2023 / 2024
+        </div>
+        <div id="current-scoreboard" className="w-full pt-2 rounded-md">
+          {renderScorboard()}
         </div>
         <div id="current-nba-standings" className="w-full pt-2 rounded-md">
           {renderStandings()}
