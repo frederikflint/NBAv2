@@ -29,7 +29,7 @@ def extract_team_statistics(soup, team, conference_index):
 
 
 def update_standings():
-    URL = "https://www.espn.com/nba/standings/_/season/2023"
+    URL = "https://www.espn.com/nba/standings"
     headers = {
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36"
     }
