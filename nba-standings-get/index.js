@@ -4,7 +4,7 @@ import { unmarshall } from "@aws-sdk/util-dynamodb";
 const client = new DynamoDBClient({ region: "eu-west-1" });
 
 async function getPredictions(date) {
-  const rawData = await client.send(
+  let rawData = await client.send(
     new QueryCommand({
       TableName: "nba-standings",
       KeyConditionExpression: "#date = :date",
@@ -20,7 +20,38 @@ async function getPredictions(date) {
   );
 
   if (rawData.Items.length) {
-    const data = unmarshall(rawData.Items?.[0]);
+    const data = unmarshall(rawData.Items?.[rawData.Items.length - 1]);
+
+    return data;
+  }
+
+  const oneDayBefore = new Date(date);
+  oneDayBefore.setDate(oneDayBefore.getDate() - 1);
+
+  let oneDayBeforeString = "";
+  const day = String(oneDayBefore.getDate()).padStart(2, "0");
+  const month = String(oneDayBefore.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed, so we add 1
+  const year = oneDayBefore.getFullYear();
+
+  oneDayBeforeString = `${day}/${month}/${year}`;
+
+  rawData = await client.send(
+    new QueryCommand({
+      TableName: "nba-standings",
+      KeyConditionExpression: "#date = :date",
+      ExpressionAttributeNames: {
+        "#date": "date",
+      },
+      ExpressionAttributeValues: {
+        ":date": {
+          S: oneDayBeforeString,
+        },
+      },
+    })
+  );
+
+  if (rawData.Items.length) {
+    const data = unmarshall(rawData.Items?.[rawData.Items.length - 1]);
 
     return data;
   }
