@@ -1,0 +1,37 @@
+{
+  "username": "Fehrn",
+  "western": {
+    "Denver Nuggets": 1,
+    "Phoenix Suns": 2,
+    "Golden State Warriors": 3,
+    "Sacramento Kings": 4,
+    "Los Angeles Lakers": 5,
+    "Memphis Grizzlies": 6,
+    "Dallas Mavericks": 7,
+    "Oklahoma City Thunder": 8,
+    "LA Clippers": 9,
+    "Minnesota Timberwolves": 10,
+    "New Orleans Pelicans": 11,
+    "San Antonio Spurs": 12,
+    "Utah Jazz": 13,
+    "Portland Trail Blazers": 14,
+    "Houston Rockets": 15
+  },
+  "eastern": {
+    "Boston Celtics": 1,
+    "Milwaukee Bucks": 2,
+    "Cleveland Cavaliers": 3,
+    "Miami Heat": 4,
+    "Philadelphia 76ers": 5,
+    "New York Knicks": 6,
+    "Atlanta Hawks": 7,
+    "Brooklyn Nets": 8,
+    "Chicago Bulls": 9,
+    "Toronto Raptors": 10,
+    "Indiana Pacers": 11,
+    "Orlando Magic": 12,
+    "Washington Wizards": 13,
+    "Charlotte Hornets": 14,
+    "Detroit Pistons": 15
+  }
+}

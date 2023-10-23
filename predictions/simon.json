@@ -1,0 +1,37 @@
+{
+  "username": "Simon",
+  "western": {
+    "Denver Nuggets": 1,
+    "Phoenix Suns": 2,
+    "Golden State Warriors": 3,
+    "Sacramento Kings": 4,
+    "Los Angeles Lakers": 5,
+    "LA Clippers": 6,
+    "Dallas Mavericks": 7,
+    "Memphis Grizzlies": 8,
+    "New Orleans Pelicans": 9,
+    "Oklahoma City Thunder": 10,
+    "Minnesota Timberwolves": 11,
+    "Houston Rockets": 12,
+    "San Antonio Spurs": 13,
+    "Utah Jazz": 14,
+    "Portland Trail Blazers": 15
+  },
+  "eastern": {
+    "Milwaukee Bucks": 1,
+    "Boston Celtics": 2,
+    "Cleveland Cavaliers": 3,
+    "Philadelphia 76ers": 4,
+    "New York Knicks": 5,
+    "Miami Heat": 6,
+    "Toronto Raptors": 7,
+    "Atlanta Hawks": 8,
+    "Chicago Bulls": 9,
+    "Indiana Pacers": 10,
+    "Orlando Magic": 11,
+    "Brooklyn Nets": 12,
+    "Washington Wizards": 13,
+    "Detroit Pistons": 14,
+    "Charlotte Hornets": 15
+  }
+}

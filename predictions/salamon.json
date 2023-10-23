@@ -1,0 +1,37 @@
+{
+  "username": "jonassalamon",
+  "western": {
+    "Phoenix Suns": 1,
+    "Denver Nuggets": 2,
+    "Memphis Grizzlies": 3,
+    "Sacramento Kings": 4,
+    "Golden State Warriors": 5,
+    "Dallas Mavericks": 6,
+    "Los Angeles Lakers": 7,
+    "Oklahoma City Thunder": 8,
+    "LA Clippers": 9,
+    "New Orleans Pelicans": 10,
+    "Minnesota Timberwolves": 11,
+    "Utah Jazz": 12,
+    "San Antonio Spurs": 13,
+    "Houston Rockets": 14,
+    "Portland Trail Blazers": 15
+  },
+  "eastern": {
+    "Boston Celtics": 1,
+    "Milwaukee Bucks": 2,
+    "Cleveland Cavaliers": 3,
+    "Philadelphia 76ers": 4,
+    "New York Knicks": 5,
+    "Miami Heat": 6,
+    "Indiana Pacers": 7,
+    "Atlanta Hawks": 8,
+    "Chicago Bulls": 9,
+    "Toronto Raptors": 10,
+    "Charlotte Hornets": 11,
+    "Brooklyn Nets": 12,
+    "Orlando Magic": 13,
+    "Detroit Pistons": 14,
+    "Washington Wizards": 15
+  }
+}
