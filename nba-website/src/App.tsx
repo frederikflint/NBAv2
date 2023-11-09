@@ -136,23 +136,28 @@ function App() {
     const confOffset = calculatOffsetConf(confName, prediction);
 
     return (
-      <div id="east" className="grid grid-cols-8">
+      <div id="east" className="grid grid-cols-8 gap-y-1">
         <span className="font-bold col-span-8">{confName}</span>
         {Object.keys(prediction)
           .sort((a, b) => prediction[a] - prediction[b])
           .map((team) => {
             const pred = prediction[team];
 
+            const confStandings =
+              confName === "East" ? standings?.eastern : standings?.western;
+            const isPoBonus =
+              pred <= 8 && (confStandings?.[team].placement ?? 15) <= 8;
+
             return (
               <Fragment key={team + "pred"}>
-                <div className="text-center">{pred}.</div>
-                <div className="sm:hidden col-span-5">
+                <div className={`text-center ${isPoBonus ? 'bg-green-300 opacity-30 rounded-l-md' : ''}`}>{pred}.</div>
+                <div className={`sm:hidden col-span-5 ${isPoBonus ? 'bg-green-300 opacity-30' : ''}`}>
                   {confName === "East"
                     ? eastTeamShortNames[team]
                     : westTeamShortNames[team]}
                 </div>
-                <div className="hidden sm:block col-span-6">{team}</div>
-                <div className="col-span-2 sm:col-span-1 text-right">
+                <div className={`hidden sm:block col-span-6 ${isPoBonus ? 'bg-green-300 opacity-30' : ''}`}>{team}</div>
+                <div className={`col-span-2 sm:col-span-1 text-right ${isPoBonus ? 'bg-green-300 opacity-30 rounded-r-md' : ''}`}>
                   {calculateOffsetTeam(confName, team, pred)}
                 </div>
               </Fragment>
@@ -173,18 +178,53 @@ function App() {
     return eastOffset + westOffset;
   };
 
+  const calculatePOBonusUser = (
+    conferencePrediction: ConferncePrediction,
+    conferenceStanding?: TeamStatisticsDictionary
+  ) => {
+    const bonus = Object.keys(conferencePrediction).reduce((acc, team) => {
+      const teamPrediction = conferencePrediction[team];
+      const teamPlacement = conferenceStanding?.[team].placement;
+
+      return acc + (teamPrediction <= 8 && (teamPlacement ?? 16) <= 8 ? -1 : 0);
+    }, 0);
+
+    return bonus;
+  };
+
+  const renderScore = (prediction: Prediction) => {
+    const offsetScore = calculatOffsetUser(prediction);
+    const eastBonus = calculatePOBonusUser(
+      prediction.eastern,
+      standings?.eastern
+    );
+    const westBonus = calculatePOBonusUser(
+      prediction.western,
+      standings?.western
+    );
+    return {
+      score: offsetScore + eastBonus + westBonus,
+      html: (
+        <>
+          Team offset score: {offsetScore} <br />
+          Playoff bonus east: {eastBonus} <br />
+          Playoff bonus west: {westBonus} <br />
+          Total score: {offsetScore + eastBonus + westBonus}
+        </>
+      ),
+    };
+  };
+
   const renderUserPrediction = (prediction: Prediction) => {
     return (
       <div key={prediction.username} className="col-span-2 lg:col-span-1">
         <div id="header" className="font-bold">
           {prediction.username}
         </div>
-        <div className="grid grid-cols-2 gap-2 border border-black rounded-md bg-blue-100 p-4">
+        <div className="grid grid-cols-2 gap-2 border border-black rounded-md bg-blue-300 p-4">
           {renderConferencePrediction(prediction.eastern, "East")}
           {renderConferencePrediction(prediction.western, "West")}
-          <div className="font-bold">
-            Score: {calculatOffsetUser(prediction)}
-          </div>
+          <div className="font-bold">{renderScore(prediction).html}</div>
         </div>
       </div>
     );
@@ -193,13 +233,13 @@ function App() {
   const renderPredictions = () => {
     return (
       <>
-        <div className="bg-blue-100 rounded-md font-bold lg:text-left p-2">
+        <div className="bg-blue-300 rounded-md font-bold lg:text-left p-2">
           User predictions
         </div>
 
         <div className="grid grid-cols-2 gap-4 lg:text-left mt-2">
           {predictions
-            .sort((a, b) => calculatOffsetUser(a) - calculatOffsetUser(b))
+            .sort((a, b) => renderScore(a).score - renderScore(b).score)
             .map((prediction) => {
               return renderUserPrediction(prediction);
             })}
@@ -270,16 +310,16 @@ function App() {
             <span className="col-span-9">User</span>
             <span className="col-span-2">Score</span>
             {predictions
-              .sort((a, b) => calculatOffsetUser(a) - calculatOffsetUser(b))
+              .sort((a, b) => renderScore(a).score - renderScore(b).score)
               .map((prediction, index) => {
                 return (
-                  <>
+                  <Fragment key={prediction.username}>
                     <span>{index + 1}.</span>
                     <span className="col-span-9">{prediction.username}</span>
                     <span className="col-span-2">
-                      {calculatOffsetUser(prediction)}
+                      {renderScore(prediction).score}
                     </span>
-                  </>
+                  </Fragment>
                 );
               })}
           </div>
@@ -293,18 +333,18 @@ function App() {
       <div className="flex-col space-y-4">
         <div
           id="header"
-          className="w-full bg-blue-300 lg:text-left p-2 rounded-md font-bold"
+          className="w-full bg-blue-500 lg:text-left p-2 rounded-md font-bold"
         >
           NBA Predictions 2023 / 2024
         </div>
         <div id="current-scoreboard" className="w-full pt-2 rounded-md">
           {renderScorboard()}
         </div>
-        <div id="current-nba-standings" className="w-full pt-2 rounded-md">
-          {renderStandings()}
-        </div>
         <div id="user-redictions" className="w-full pt-2 rounded-md">
           {renderPredictions()}
+        </div>
+        <div id="current-nba-standings" className="w-full pt-2 rounded-md">
+          {renderStandings()}
         </div>
       </div>
     </div>
